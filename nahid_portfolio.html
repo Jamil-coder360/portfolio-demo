@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MD Nahid Hasan Jamil — Frontend Developer</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a14;
+      --text: #fff;
+      --muted: rgba(255,255,255,0.55);
+      --faint: rgba(255,255,255,0.12);
+      --border: rgba(255,255,255,0.1);
+      --purple: #a78bfa;
+      --cyan: #61dafb;
+      --green: #42b883;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── Canvas BG ── */
+    #bg-canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.875rem 3rem;
+      background: rgba(10,10,20,0.65);
+      backdrop-filter: blur(14px);
+      border-bottom: 0.5px solid var(--border);
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; letter-spacing: -0.02em; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: #fff; }
+
+    /* ── Sections ── */
+    section {
+      position: relative; z-index: 1;
+      padding: 3rem 3rem;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3); margin-bottom: 1.5rem;
+    }
+
+    /* ── Hero ── */
+    .hero { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,0.07);
+      border: 0.5px solid rgba(255,255,255,0.18);
+      border-radius: 20px; padding: 4px 14px;
+      font-size: 12px; color: rgba(255,255,255,0.65);
+      margin-bottom: 1.25rem;
+    }
+    .hero-badge::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%;
+      background: #22c55e;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 36px; font-weight: 700;
+      line-height: 1.2; letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    h1 span { color: rgba(255,255,255,0.4); }
+
+    .hero-desc {
+      font-size: 15px; color: var(--muted);
+      max-width: 500px; line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    .hero-btns { display: flex; gap: 12px; }
+    .btn-primary {
+      background: #fff; color: #0a0a14;
+      border: none; padding: 9px 22px;
+      border-radius: 8px; font-size: 13px;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-weight: 500; transition: opacity 0.2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: rgba(255,255,255,0.07); color: #fff;
+      border: 0.5px solid rgba(255,255,255,0.2);
+      padding: 9px 22px; border-radius: 8px;
+      font-size: 13px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.2s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.13); }
+
+    /* ── About ── */
+    .about-text { font-size: 15px; color: var(--muted); line-height: 1.9; max-width: 620px; }
+
+    /* ── Skills ── */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 12px; }
+    .skill-card {
+      background: rgba(255,255,255,0.05);
+      border: 0.5px solid var(--border);
+      border-radius: 10px; padding: 1rem;
+      transition: background 0.2s;
+    }
+    .skill-card:hover { background: rgba(255,255,255,0.09); }
+    .skill-name { font-size: 13px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+    .skill-bar-bg { height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; }
+    .skill-bar { height: 3px; border-radius: 2px; }
+    .skill-level { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 5px; }
+
+    /* ── Projects ── */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .project-card {
+      background: rgba(255,255,255,0.04);
+      border: 0.5px solid var(--border);
+      border-radius: 14px; padding: 1.25rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .project-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-3px); }
+    .project-tag {
+      display: inline-block; font-size: 11px;
+      padding: 2px 9px; border-radius: 10px;
+      margin-bottom: 0.7rem; font-weight: 500;
+    }
+    .tag-react { background: rgba(97,218,251,0.12); color: #61dafb; }
+    .tag-html  { background: rgba(255,120,50,0.12); color: #ff7832; }
+    .tag-vue   { background: rgba(66,184,131,0.12); color: #42b883; }
+    .project-title { font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 6px; }
+    .project-desc  { font-size: 12px; color: var(--muted); line-height: 1.65; }
+    .project-link  { display: inline-block; margin-top: 12px; font-size: 12px; color: var(--purple); text-decoration: none; }
+    .project-link:hover { text-decoration: underline; }
+
+    /* ── Education Timeline ── */
+    .timeline { position: relative; padding: 0.5rem 0; }
+    .timeline-line {
+      position: absolute; left: 50%; top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, var(--purple) 15%, var(--cyan) 50%, var(--green) 85%, transparent);
+      transform: translateX(-50%);
+    }
+    .tl-item {
+      display: grid;
+      grid-template-columns: 1fr 44px 1fr;
+      align-items: start;
+      margin-bottom: 2.75rem;
+    }
+    .tl-item:last-child { margin-bottom: 0; }
+    .tl-node {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; position: relative; z-index: 2;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .tl-card {
+      background: rgba(255,255,255,0.05);
+      border: 0.5px solid var(--border);
+      border-radius: 14px; padding: 1.1rem 1.25rem;
+      transition: background 0.2s;
+    }
+    .tl-card:hover { background: rgba(255,255,255,0.09); }
+    .tl-year {
+      font-size: 11px; font-weight: 500;
+      padding: 2px 9px; border-radius: 10px;
+      display: inline-block; margin-bottom: 7px;
+    }
+    .tl-degree { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 3px; }
+    .tl-school { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    .tl-desc   { font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.65; }
+    .tl-dash { width: 22px; height: 1px; background: rgba(255,255,255,0.18); }
+    .connector-right { display: flex; align-items: center; justify-content: flex-end; padding-right: 1.25rem; padding-top: 14px; }
+    .connector-left  { display: flex; align-items: center; justify-content: flex-start; padding-left: 1.25rem; padding-top: 14px; }
+    .card-right { padding-left: 1.25rem; padding-top: 4px; }
+    .card-left  { padding-right: 1.25rem; padding-top: 4px; text-align: left; }
+
+    /* ── Contact ── */
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+    .contact-card {
+      background: rgba(255,255,255,0.05);
+      border: 0.5px solid var(--border);
+      border-radius: 10px; padding: 1rem;
+    }
+    .contact-label { font-size: 11px; color: rgba(255,255,255,0.3); margin-bottom: 4px; }
+    .contact-value { font-size: 13px; font-weight: 500; color: #fff; }
+
+    /* ── Footer ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center; padding: 1.5rem;
+      font-size: 12px; color: rgba(255,255,255,0.2);
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 0.75rem 1.25rem; }
+      .nav-links { gap: 1rem; }
+      section { padding: 2rem 1.25rem; }
+      h1 { font-size: 26px; }
+      .timeline-line { display: none; }
+      .tl-item { grid-template-columns: 44px 1fr; gap: 12px; }
+      .connector-right, .connector-left { display: none; }
+      .card-right, .card-left { padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<nav>
+  <div class="nav-logo">Nahid Jamil</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge">Available for work</div>
+  <h1>MD Nahid Hasan Jamil<br><span>Frontend Developer</span></h1>
+  <p class="hero-desc">React ও HTML/CSS/JS দিয়ে সুন্দর, responsive web interface তৈরি করি। Clean code আর user-friendly design আমার প্রধান লক্ষ্য।</p>
+  <div class="hero-btns">
+    <a href="#" class="btn-primary">Resume দেখুন</a>
+    <a href="#contact" class="btn-secondary">Contact করুন</a>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="section-label">About me</div>
+  <p class="about-text">আমি একজন passionate frontend developer যিনি React এবং modern web technologies নিয়ে কাজ করি। Clean, performant, এবং accessible web application তৈরি করতে ভালোবাসি। নতুন technology শেখা এবং real-world problem solve করা আমার passion।</p>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+  <div class="section-label">Technical skills</div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-name">React</div>
+      <div class="skill-bar-bg"><div class="skill-bar" style="width:85%;background:linear-gradient(90deg,#61dafb,#a78bfa)"></div></div>
+      <div class="skill-level">Advanced</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-name">JavaScript</div>
+      <div class="skill-bar-bg"><div class="skill-bar" style="width:80%;background:linear-gradient(90deg,#f7df1e,#f97316)"></div></div>
+      <div class="skill-level">Advanced</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-name">HTML/CSS</div>
+      <div class="skill-bar-bg"><div class="skill-bar" style="width:90%;background:linear-gradient(90deg,#f97316,#ef4444)"></div></div>
+      <div class="skill-level">Expert</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-name">Vue.js</div>
+      <div class="skill-bar-bg"><div class="skill-bar" style="width:65%;background:linear-gradient(90deg,#42b883,#34d399)"></div></div>
+      <div class="skill-level">Intermediate</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-name">Tailwind CSS</div>
+      <div class="skill-bar-bg"><div class="skill-bar" style="width:75%;background:linear-gradient(90deg,#38bdf8,#818cf8)"></div></div>
+      <div class="skill-level">Advanced</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-name">Git</div>
+      <div class="skill-bar-bg"><div class="skill-bar" style="width:70%;background:linear-gradient(90deg,#f43f5e,#a78bfa)"></div></div>
+      <div class="skill-level">Intermediate</div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="section-label">Projects</div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <span class="project-tag tag-react">React</span>
+      <div class="project-title">E-Commerce Dashboard</div>
+      <p class="project-desc">React দিয়ে তৈরি full-featured admin dashboard। Charts, data tables, এবং responsive layout সহ।</p>
+      <a href="#" class="project-link">GitHub →</a>
+    </div>
+    <div class="project-card">
+      <span class="project-tag tag-html">HTML/CSS/JS</span>
+      <div class="project-title">Portfolio Website</div>
+      <p class="project-desc">Pure HTML, CSS ও Vanilla JS দিয়ে তৈরি responsive portfolio site। Dark mode support সহ।</p>
+      <a href="#" class="project-link">Live Demo →</a>
+    </div>
+    <div class="project-card">
+      <span class="project-tag tag-vue">Vue.js</span>
+      <div class="project-title">Task Manager App</div>
+      <p class="project-desc">Vue.js দিয়ে তৈরি drag-and-drop task management application। Local storage integration সহ।</p>
+      <a href="#" class="project-link">GitHub →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Education Timeline -->
+<section id="education">
+  <div class="section-label">Education</div>
+  <div class="timeline">
+    <div class="timeline-line"></div>
+
+    <!-- BSc -->
+    <div class="tl-item">
+      <div class="connector-right"><div class="tl-dash"></div></div>
+      <div class="tl-node" style="background:rgba(167,139,250,0.12);">🎓</div>
+      <div class="card-right">
+        <div class="tl-card">
+          <span class="tl-year" style="background:rgba(167,139,250,0.15);color:#a78bfa;">2020 – 2024</span>
+          <div class="tl-degree">BSc in Computer Science & Engineering</div>
+          <div class="tl-school">University Name, Bangladesh</div>
+          <div class="tl-desc">Major in Software Engineering। CGPA: 3.75/4.00। Dean's List award। Final year thesis on Machine Learning applications।</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HSC -->
+    <div class="tl-item">
+      <div class="card-left">
+        <div class="tl-card">
+          <span class="tl-year" style="background:rgba(97,218,251,0.15);color:#61dafb;">2018 – 2020</span>
+          <div class="tl-degree">HSC – Science</div>
+          <div class="tl-school">College Name, Panchagarh</div>
+          <div class="tl-desc">GPA: 5.00/5.00। Physics, Chemistry, Mathematics। Board scholarship প্রাপ্ত।</div>
+        </div>
+      </div>
+      <div class="tl-node" style="background:rgba(97,218,251,0.12);">📚</div>
+      <div class="connector-left"><div class="tl-dash"></div></div>
+    </div>
+
+    <!-- SSC -->
+    <div class="tl-item">
+      <div class="connector-right"><div class="tl-dash"></div></div>
+      <div class="tl-node" style="background:rgba(66,184,131,0.12);">🏫</div>
+      <div class="card-right">
+        <div class="tl-card">
+          <span class="tl-year" style="background:rgba(66,184,131,0.15);color:#42b883;">2016 – 2018</span>
+          <div class="tl-degree">SSC – Science</div>
+          <div class="tl-school">School Name, Panchagarh</div>
+          <div class="tl-desc">GPA: 5.00/5.00। সকল বিষয়ে A+ প্রাপ্ত। Junior Science Olympiad বিজয়ী।</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="section-label">Contact</div>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="contact-label">Email</div>
+      <div class="contact-value">your@email.com</div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-label">GitHub</div>
+      <div class="contact-value">github.com/username</div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-label">LinkedIn</div>
+      <div class="contact-value">linkedin.com/in/username</div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-label">Location</div>
+      <div class="contact-value">Panchagarh, Bangladesh</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 MD Nahid Hasan Jamil. Built with passion.
+</footer>
+
+<script>
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = document.body.scrollHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const colors = ['#7c3aed','#2563eb','#db2777','#059669','#d97706','#0891b2','#9333ea','#e11d48'];
+  const orbs = Array.from({length: 8}, (_, i) => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight * 3,
+    r: 200 + Math.random() * 200,
+    color: colors[i % colors.length],
+    vx: (Math.random() - 0.5) * 0.4,
+    vy: (Math.random() - 0.5) * 0.4,
+    phase: Math.random() * Math.PI * 2
+  }));
+  const particles = Array.from({length: 60}, () => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight * 3,
+    r: 1 + Math.random() * 2,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: -0.2 - Math.random() * 0.3,
+    alpha: 0.3 + Math.random() * 0.5
+  }));
+
+  let frame = 0;
+  function draw() {
+    resize();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#0a0a14';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    frame++;
+
+    orbs.forEach(o => {
+      o.x += o.vx + Math.sin(frame * 0.008 + o.phase) * 0.3;
+      o.y += o.vy + Math.cos(frame * 0.006 + o.phase) * 0.2;
+      if (o.x < -o.r) o.x = canvas.width + o.r;
+      if (o.x > canvas.width + o.r) o.x = -o.r;
+      if (o.y < -o.r) o.y = canvas.height + o.r;
+      if (o.y > canvas.height + o.r) o.y = -o.r;
+      const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+      g.addColorStop(0, o.color + '50');
+      g.addColorStop(1, o.color + '00');
+      ctx.beginPath();
+      ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
+      ctx.fillStyle = g;
+      ctx.fill();
+    });
+
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.y < 0) { p.y = canvas.height; p.x = Math.random() * canvas.width; }
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+</script>
+</body>
+</html>
